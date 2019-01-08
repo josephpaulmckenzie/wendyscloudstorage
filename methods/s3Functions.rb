@@ -4,10 +4,10 @@ require 'fileutils'
 
 load './local_env.rb' if File.exist?('./local_env.rb')
 
-  # Aws.config.update(
-    #     credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'] , ENV['AWS_SECRET_ACCESS_KEY'] ),
-    #     region: 'us-east-1',
-    #   )
+  Aws.config.update(
+        credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'] , ENV['AWS_SECRET_ACCESS_KEY'] ),
+        region: 'us-east-1',
+      )
 
 def upload_to_s3(file)
     s3 = Aws::S3::Resource.new(region: 'us-east-1')  
