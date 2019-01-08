@@ -85,11 +85,11 @@ end
 #     # end
 # end
 
-    def delete_photo_from_s3(file)
+    def delete_photo_from_s3(folder,file)
 
         file = file.split("/")[-1]
         s3 = Aws::S3::Resource.new(region: 'us-east-1')
-        s3.bucket(ENV['S3BUCKET']).object(file).delete   
+        s3.bucket('wendys3storage').object("#{folder}/#{file}").delete   
     end
 
 # listResults()

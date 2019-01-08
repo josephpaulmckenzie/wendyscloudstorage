@@ -47,27 +47,35 @@
         </div><!-- header -->
         <div class="content" style='text-align:center'>
             <h1>Wendy's Cloud Storage <span>A place to keep all your precious memories</span></h1><br>
+              <h1 style='text-align:center'>
+                <%=message%>
+            </h1>
             <h3 style='text-align:center'> Please Select the folder you wish to view. </h3>
           
                 <form action="gallery" method="get">
                 <%# <input type="hidden" name="" /> %>
-                <select name="searchterm" onchange="DropDownChanged(this);">
+                <select name="searchterm" id="Search" onchange="DropDownChanged(this);">
                     <option value="None">View All</option>
                     <%listFolders.each do |folder|%>
                     <option value="<%=folder%>"><%=folder%></option>
                     <%end%>
                     <option value="">New Folder</option>
                 </select><br>
-                 <input type="text" name="customFolder" style="display: none;" placeholder="Enter a name"/><br>
+                <input type="text" name="customFolder" style="display: none;" placeholder="Enter a name"/><br>
                 <button type="submit">Submit</button>
                 </form>
+                <script>
+                    var x = document.getElementById("Search").options;
+                        for(var i=0;i<x.length;i++){
+                                if(x[i].text=="<%=searchterm%>"){
+                                    x[i].selected=true;
+                                    break;
+                        }
+                    }
+                </script>
 
 
-
-
-            <h1 style='text-align:center'>
-                <%=message%>
-            </h1>
+          
             <div id="rg-gallery" class="rg-gallery">
                 <div class="rg-thumbs">
                     <!-- Elastislide Carousel Thumbnail Viewer -->
@@ -86,13 +94,12 @@
                             </ul>
                         </div>
                     </div>
-                    <!-- End Elastislide Carousel Thumbnail Viewer -->
                 </div>
-                <!-- rg-thumbs -->
             </div>
             <div class="container" style="text-align: center;">
                 <form action="deletePhoto" method="post" onsubmit="return confirm('Are you sure wish to delete this photo?');">
                     <input type="hidden" id="imagelink" name="imageToDelete">
+                    <input type='hidden' name='searchterm' value="<%=searchterm%>">
                     <button type='submit'>Delete Photo</button>
                 </form>
             </div>
@@ -106,6 +113,8 @@
         <label for='image_file'>Upload New Image</label><br>
         <input type="file" name="image" id="image_file" /><br><br>
         <input type='hidden' name='folderName' value="<%=searchterm%>">
+        <input type='hidden' name='searchterm' value="<%=searchterm%>">
+
         <button type='submit'>Save</button>
     </form>
     </div>
