@@ -1,11 +1,11 @@
 require 'sinatra'
-require_relative 'methods/s3Functions.rb'
 load './local_env.rb' if File.exist?('./local_env.rb')
+
+require_relative 'methods/s3Functions.rb'
 
 get '/' do
     message = ""
-    images = listResults()
-    erb :index, :locals => {message: message, images: images}
+    erb :index, :locals => {message: message}
 
 end
 

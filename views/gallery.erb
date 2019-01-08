@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <title>Wendy's Cloud Storage</title>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -86,7 +87,12 @@
                     </div>
                 </div>
             </div>
-            <a id = 'facebookshare' href='' onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;" target="_blank" title="Share on Facebook">Share on Facebook</a><br><br>
+             <a id='facebookshare' href='' onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;" target="_blank" title="Share on Facebook"><img alt="Share on Facebook" src="img/Facebook.png" /></a>
+            &nbsp;&nbsp;
+
+             <a id='twittershare' href='' onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;" target="_blank" title="Share on Twitter"><img alt="Tweet" src="img/Twitter.png" /></a></a>
+              
+            <br><br>
             <div class="container" style="text-align: center;">
                 <form action="deletePhoto" method="post" onsubmit="return confirm('Are you sure wish to delete this photo?');">
                     <input type="hidden" id="imagelink" name="imageToDelete">
@@ -102,8 +108,11 @@
             var imagelink = document.getElementById("imagetoget").src
                 document.getElementById("imagelink").value = imagelink
 
-                var a = document.getElementById('facebookshare'); //or grab it by tagname etc
-                    a.href = "https://www.facebook.com/sharer/sharer.php?u="+imagelink +"&t=TITLE"
+                var fb = document.getElementById('facebookshare'); //or grab it by tagname etc
+                    fb.href = "https://www.facebook.com/sharer/sharer.php?u="+imagelink +"&t=TITLE"
+
+                var twt = document.getElementById('twittershare'); //or grab it by tagname etc
+                twt.href = "https://twitter.com/share?url=" + imagelink
         </script>
     </div>
     <form action='/s3upload' method='post' accept-charset="utf-8" enctype="multipart/form-data" style="text-align: center;">
