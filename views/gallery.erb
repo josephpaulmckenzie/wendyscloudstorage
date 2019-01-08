@@ -45,8 +45,26 @@
     <div class="container">
         <div class="header">
         </div><!-- header -->
-        <div class="content">
-            <h1>Wendy's Cloud Storage <span>A place to keep all your precious memories</span></h1>
+        <div class="content" style='text-align:center'>
+            <h1>Wendy's Cloud Storage <span>A place to keep all your precious memories</span></h1><br>
+            <h3 style='text-align:center'> Please Select the folder you wish to view. </h3>
+          
+                <form action="gallery" method="get">
+                <%# <input type="hidden" name="" /> %>
+                <select name="searchterm" onchange="DropDownChanged(this);">
+                    <option value="None">View All</option>
+                    <%listFolders.each do |folder|%>
+                    <option value="<%=folder%>"><%=folder%></option>
+                    <%end%>
+                    <option value="">New Folder</option>
+                </select><br>
+                 <input type="text" name="customFolder" style="display: none;" placeholder="Enter a name"/><br>
+                <button type="submit">Submit</button>
+                </form>
+
+
+
+
             <h1 style='text-align:center'>
                 <%=message%>
             </h1>
@@ -87,6 +105,7 @@
     <form action='/s3upload' method='post' accept-charset="utf-8" enctype="multipart/form-data" style="text-align: center;">
         <label for='image_file'>Upload New Image</label><br>
         <input type="file" name="image" id="image_file" /><br><br>
+        <input type='hidden' name='folderName' value="<%=searchterm%>">
         <button type='submit'>Save</button>
     </form>
     </div>
@@ -99,3 +118,15 @@
 </body>
 
 </html>
+
+<script>
+function DropDownChanged(oDDL) {
+    var oTextbox = oDDL.form.elements["customFolder"];
+    if (oTextbox) {
+        oTextbox.style.display = (oDDL.value == "") ? "" : "none";
+        if (oDDL.value == "")
+            oTextbox.focus();
+    }
+}
+
+</script>

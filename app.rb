@@ -26,11 +26,12 @@ end
 post '/s3upload' do
 
     image = params[:image]
-
-    s3upload = upload_to_s3(image["tempfile"])
+    searchterm = params[:searchterm]
+    folderName = params[:folderName]
+    s3upload = upload_to_s3(folderName,image["tempfile"])
     message = "Thanks For uploading a new image mom"
-    images = listResults()
-
+    # images = listResults(searchterm)
+    redirect '/gallery?message=The Photos you selected has been deleted.'
     erb :gallery, :locals => {images: images,message: message}
 
 
@@ -40,9 +41,21 @@ end
 
 get '/gallery' do
     message = params[:message] || ""
-    images = listResults()
-puts "THE MESSAGE IS #{message}"
-    erb :gallery, :locals => {images: images,message: message}
+    searchterm = params[:searchterm] || ""
+    customFolder = params[:customFolder] || ""
+    if searchterm != ""
+        searchterm = searchterm
+    elsif customFolder != ""
+        searchterm = customFolder
+    else 
+        searchterm = "None"
+    end
+    p "The Search is #{searchterm}"
+    images = listResults(searchterm)
+    listFolders = listFolders()
+    puts "THE MESSAGE IS #{message}"
+
+    erb :gallery, :locals => {images: images,message: message,listFolders: listFolders,searchterm: searchterm}
 
 end
 

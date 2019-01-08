@@ -4,48 +4,69 @@ require 'fileutils'
 
 load './local_env.rb' if File.exist?('./local_env.rb')
 
-  Aws.config.update(
-        credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'] , ENV['AWS_SECRET_ACCESS_KEY'] ),
-        region: 'us-east-1',
-      )
+#   Aws.config.update(
+#         credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'] , ENV['AWS_SECRET_ACCESS_KEY'] ),
+#         region: 'us-east-1',
+#       )
 
-def upload_to_s3(file)
+def upload_to_s3(folder,file)
     s3 = Aws::S3::Resource.new(region: 'us-east-1')  
-    bucket = ENV['S3BUCKET']
+    bucket = "wendys3storage"
         
     # Get just the file name
     name = File.basename(file)
 
     # Create the object to upload
-    obj = s3.bucket(bucket).object(name)
+    obj = s3.bucket(bucket).object("#{folder}/#{name}")
 
     # Upload it      
     obj.upload_file(file)
 end
 
-
-
-def listResults
-  
+def listFolders()
     s3 = Aws::S3::Resource.new(region: 'us-east-1')
-    
-    bucket = s3.bucket(ENV['S3BUCKET'])
+
+    bucket = s3.bucket('wendys3storage')
+
+        folders = []
+        bucket.objects.each do |item|
+        searchresult = item.key.split("/")[0]
+        folders.push(searchresult)
+end
+
+p folders.uniq
+return folders.uniq
+
+end
+
+
+
+def listResults(searchterm)
+    # keys = []
+    s3 = Aws::S3::Resource.new(region: 'us-east-1')
+
+    bucket = s3.bucket('wendys3storage')
 
         keys = []
-    bucket.objects.each do |item|
+        bucket.objects.each do |item|
         searchresult = item.key.split("/")[0]
+    if searchresult == searchterm
         keys.push("https://s3.amazonaws.com/wendys3storage/#{item.key}")
-
-    puts "Search Result: #{searchresult}"
-    puts "Name:  #{item.key}"
-    puts "THE WHOLE ITEM: #{item}"
+    elsif searchterm == "None"
+        keys.push("https://s3.amazonaws.com/wendys3storage/#{item.key}")
+    end
+  
+    # puts "Search Result: #{searchresult}"
+    # puts "Name:  #{item.key}"
+    # puts "THE WHOLE ITEM: #{item}"
 end
-
-puts "KEYS ARE #{keys}"
-# downloadResults(keys)
 return keys
+
 end
 
+
+# listResults("AnimalPics")
+# listFolders()
 # # def downloadResults(keys)
 
 #     s3 = Aws::S3::Resource.new(region: 'us-east-1')
