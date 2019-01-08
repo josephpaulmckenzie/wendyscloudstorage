@@ -209,7 +209,7 @@ $(function() {
 				
 				$items.removeClass('selected');
 				$item.addClass('selected');
-					 
+			
 				var $thumb		= $item.find('img'),
 					largesrc	= $thumb.data('large'),
 					title		= $thumb.data('description');

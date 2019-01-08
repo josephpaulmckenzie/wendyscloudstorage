@@ -39,17 +39,17 @@ end
 
 
 get '/gallery' do
-    message = ""
+    message = params[:message] || ""
     images = listResults()
-
+puts "THE MESSAGE IS #{message}"
     erb :gallery, :locals => {images: images,message: message}
 
 end
 
 post '/deletePhoto' do
 
-    deleteimage = params[:deleteimage]
-
-    puts deleteimage
+    imageToDelete = params[:imageToDelete]
+    delete_photo_from_s3(imageToDelete)
+    redirect '/gallery?message=The Photos you selected has been deleted.'
 
 end
